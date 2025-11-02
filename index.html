@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cronograma Agronómico - Finca Bellavista</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📅 Cronograma Agronómico 2025-2026 - Finca Bellavista</h1>
+            <p>81,450 árboles | 7 lotes activos | Variedades Castillo y Cenicafé 1 | 1200-1350 msnm</p>
+        </div>
+        
+        <!-- Indicador de semana actual -->
+        <div class="current-week-indicator">
+            📍 SEMANA ACTUAL: <span class="week-info" id="currentWeekInfo">Calculando...</span> | 
+            <span class="week-info" id="currentStatus">Verificando estado...</span>
+        </div>
+        
+        <!-- Controles de guardado -->
+        <div class="save-controls">
+            <button class="save-btn" onclick="saveChanges()">💾 Guardar Cambios</button>
+            <button class="export-btn" onclick="exportData()">📥 Exportar Datos</button>
+            <button class="import-btn" onclick="document.getElementById('importFile').click()">📤 Importar Datos</button>
+            <input type="file" id="importFile" style="display: none;" accept=".json" onchange="importData(event)">
+            <span class="save-status" id="saveStatus"></span>
+        </div>
+        
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('general')">Vista Anual (Teórica)</button>
+            <button class="tab-button" onclick="showTab('lotes')">Vista Lotes (Real)</button>
+            <button class="tab-button" onclick="showTab('ciclo')">Ciclo</button>
+            <button class="tab-button" onclick="showTab('info')">Información Lotes</button>
+            <button class="tab-button" onclick="showTab('historial')">📊 Historial</button>
+        </div>
+        
+        <!-- Tab 1: Vista General Teórica -->
+        <div id="general" class="tab-content active">
+            <div class="controls">
+                <div class="year-selector">
+                    <label style="font-weight: 600;">Vista:</label>
+                    <button class="year-button active" onclick="showYear('2025')">2025</button>
+                    <button class="year-button" onclick="showYear('2026')">2026 (Optimizado)</button>
+                    <button class="year-button" onclick="showYear('completo')">2025-2026</button>
+                </div>
+                
+                <!-- Toggle de renovación -->
+                <div class="renovation-toggle">
+                    <label for="renovationToggle">🔧 Actividades de Renovación</label>
+                    <div class="toggle-switch" id="renovationToggle" onclick="toggleRenovation()">
+                        <div class="toggle-slider"></div>
+                    </div>
+                </div>
+                
+                <div class="legend" id="legend">
+                    <!-- Se llenará dinámicamente -->
+                </div>
+            </div>
+            
+            <!-- Panel informativo de secuencia -->
+            <div class="sequence-info">
+                <h3>📋 Secuencia de Actividades (Basada en Fertilización)</h3>
+                <ul>
+                    <li><strong>1. Guadaña:</strong> 4 semanas antes del desbejuque</li>
+                    <li><strong>2. Desbejucar:</strong> 2-3 semanas antes del plateo</li>
+                    <li><strong>3. Plateo + Deschupona:</strong> 4 semanas inmediatamente antes de fertilización</li>
+                    <li><strong>4. 🔑 FERTILIZACIÓN:</strong> Actividad determinante (S20-21 y S46-47)</li>
+                </ul>
+            </div>
+            
+            <div class="calendar-wrapper">
+                <table class="calendar-table" id="calendarTable2025">
+                    <thead>
+                        <tr>
+                            <th rowspan="2" style="width: 180px;">Actividad</th>
+                            <th colspan="4" class="month-header">ENE 2025</th>
+                            <th colspan="4" class="month-header">FEB</th>
+                            <th colspan="4" class="month-header">MAR</th>
+                            <th colspan="5" class="month-header">ABR</th>
+                            <th colspan="4" class="month-header">MAY</th>
+                            <th colspan="4" class="month-header">JUN</th>
+                            <th colspan="5" class="month-header">JUL</th>
+                            <th colspan="4" class="month-header">AGO</th>
+                            <th colspan="4" class="month-header">SEP</th>
+                            <th colspan="5" class="month-header">OCT</th>
+                            <th colspan="4" class="month-header">NOV</th>
+                            <th colspan="4" class="month-header">DIC</th>
+                        </tr>
+                        <tr id="weekNumbers2025">
+                            <!-- Se llenará con JavaScript -->
+                        </tr>
+                    </thead>
+                    <tbody id="calendarBody2025">
+                        <!-- Se llenará con JavaScript -->
+                    </tbody>
+                </table>
+                
+                <!-- Tabla 2026 -->
+                <table class="calendar-table" id="calendarTable2026" style="display: none; margin-top: 20px;">
+                    <thead>
+                        <tr>
+                            <th rowspan="2" style="width: 180px;">Actividad</th>
+                            <th colspan="4" class="month-header">ENE 2026</th>
+                            <th colspan="4" class="month-header">FEB</th>
+                            <th colspan="4" class="month-header">MAR</th>
+                            <th colspan="5" class="month-header">ABR</th>
+                            <th colspan="4" class="month-header">MAY</th>
+                            <th colspan="4" class="month-header">JUN</th>
+                            <th colspan="5" class="month-header">JUL</th>
+                            <th colspan="4" class="month-header">AGO</th>
+                            <th colspan="4" class="month-header">SEP</th>
+                            <th colspan="5" class="month-header">OCT</th>
+                            <th colspan="4" class="month-header">NOV</th>
+                            <th colspan="4" class="month-header">DIC</th>
+                        </tr>
+                        <tr id="weekNumbers2026">
+                            <!-- Se llenará con JavaScript -->
+                        </tr>
+                    </thead>
+                    <tbody id="calendarBody2026">
+                        <!-- Se llenará con JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Tab 2: Vista por Lotes (Real) -->
+        <div id="lotes" class="tab-content">
+            <div class="controls">
+                <div class="filter-group">
+                    <label>Filtrar por Lote:</label>
+                    <select id="loteFilter" onchange="filterByLote()">
+                        <option value="todos">Todos los lotes</option>
+                        <option value="L1">Lote 1</option>
+                        <option value="L2">Lote 2</option>
+                        <option value="L3">Lote 3</option>
+                        <option value="L4">Lote 4</option>
+                        <option value="L5">Lote 5</option>
+                        <option value="L6">Lote 6</option>
+                        <option value="L7">Lote 7</option>
+                    </select>
+                </div>
+                
+                <button class="add-activity-btn" onclick="showAddActivityModal()">➕ Agregar Actividad Real</button>
+            </div>
+            
+            <div class="calendar-wrapper">
+                <table class="calendar-table" id="lotesTable">
+                    <thead>
+                        <tr>
+                            <th rowspan="2">Actividad</th>
+                            <th colspan="52">Semanas del Año</th>
+                        </tr>
+                        <tr id="weekNumbersLotes">
+                            <!-- Se llenará con JavaScript -->
+                        </tr>
+                    </thead>
+                    <tbody id="lotesBody">
+                        <!-- Se llenará con JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Tab 3: Ciclo -->
+        <div id="ciclo" class="tab-content">
+            <div id="cicloContent">
+                <!-- Se cargará desde ciclo.html -->
+            </div>
+        </div>
+        
+        <!-- Tab 4: Información de Lotes -->
+        <div id="info" class="tab-content">
+            <div class="lote-info" id="loteInfo">
+                <!-- Se cargará dinámicamente -->
+            </div>
+        </div>
+        
+        <!-- Tab 5: Historial de Cambios -->
+        <div id="historial" class="tab-content">
+            <div class="historial-container">
+                <h2>📊 Historial de Cambios</h2>
+                <button class="clear-history-btn" onclick="clearHistory()">🗑️ Limpiar Historial</button>
+                <div id="historyList">
+                    <!-- Se llenará dinámicamente -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal para agregar actividad -->
+    <div class="modal" id="addActivityModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAddActivityModal()">&times;</span>
+            <h2>Agregar Actividad Real</h2>
+            <form id="addActivityForm">
+                <label>Actividad:</label>
+                <input type="text" id="activityName" required>
+                
+                <label>Lote:</label>
+                <select id="activityLote" required>
+                    <option value="">Seleccionar...</option>
+                    <option value="L1">Lote 1</option>
+                    <option value="L2">Lote 2</option>
+                    <option value="L3">Lote 3</option>
+                    <option value="L4">Lote 4</option>
+                    <option value="L5">Lote 5</option>
+                    <option value="L6">Lote 6</option>
+                    <option value="L7">Lote 7</option>
+                </select>
+                
+                <label>Semana:</label>
+                <input type="number" id="activityWeek" min="1" max="52" required>
+                
+                <label>Año:</label>
+                <select id="activityYear" required>
+                    <option value="2025">2025</option>
+                    <option value="2026">2026</option>
+                </select>
+                
+                <button type="submit">Agregar</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Notificación de cambios -->
+    <div class="notification" id="notification"></div>
+    
+    <div class="tooltip" id="tooltip"></div>
+    
+    <!-- Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/calendar.js"></script>
+    <script src="js/drag-drop.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
